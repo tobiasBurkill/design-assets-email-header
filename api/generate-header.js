@@ -80,7 +80,7 @@ async function sendEmailWithHeader(email, clientName, industry, territory, image
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'headers@yourdomain.com',
+      from: 'headers@phmg.com',
       to: email,
       subject: `Email Header Ready - ${clientName}`,
       html: `
