@@ -8,12 +8,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { clientName, industry, territory } = req.body;
+    const { productName, industry, territory } = req.body;
 
     // Validate required fields
-    if (!clientName || !industry || !territory) {
+    if (!productName || !industry || !territory) {
       return res.status(400).json({ 
-        error: 'Missing required fields: clientName, industry, and territory' 
+        error: 'Missing required fields: productName, industry, and territory' 
       });
     }
 
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     const imageUrl = exportData.images[COMPONENT_KEY];
 
     // Step 3: Send email with result
-    await sendEmailWithHeader(req.body.email, clientName, industry, territory, imageUrl);
+    await sendEmailWithHeader(req.body.email, productName, industry, territory, imageUrl);
 
     return res.status(200).json({
       success: true,
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
 }
 
 // Email function using Resend
-async function sendEmailWithHeader(email, clientName, industry, territory, imageUrl) {
+async function sendEmailWithHeader(email, productName, industry, territory, imageUrl) {
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   
   const emailResponse = await fetch('https://api.resend.com/emails', {
@@ -80,12 +80,12 @@ async function sendEmailWithHeader(email, clientName, industry, territory, image
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'headers@phmg.com',
+      from: 'headers@yourdomain.com',
       to: email,
-      subject: `Email Header Ready - ${clientName}`,
+      subject: `Email Header Ready - ${productName}`,
       html: `
         <h2>Your email header is ready!</h2>
-        <p><strong>Client:</strong> ${clientName}</p>
+        <p><strong>Product:</strong> ${productName}</p>
         <p><strong>Industry:</strong> ${industry}</p>
         <p><strong>Territory:</strong> ${territory}</p>
         <p>Download your header:</p>
